@@ -29,14 +29,20 @@ docker commit -p container_id new_container_name
 
 ```
 
+# Dotfile backup and management to github
 
 ```bash
 # Install chezmoi for dotfale managemet
 dnf install https://github.com/twpayne/chezmoi/releases/download/v2.43.0/chezmoi-2.43.0-aarch64.rpm
+
+# Basic startup how to backup dotfiles including encrypt secrets using pass
+https://fedoramagazine.org/take-back-your-dotfiles-with-chezmoi/
 ```
 
 
 ```bash
 # TODO: add dot file mangement
-1. Git clone zchrc , tmux.conf , nvim config in correct locations 
+1. Git clone zchrc , tmux.conf , nvim config in correct locations
+
+# Seems you cannot connect using ssh to Fedora docker so ansible configurations need to be done using real VM.  
 ```
