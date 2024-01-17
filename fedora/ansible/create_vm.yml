@@ -1,0 +1,36 @@
+---
+- name: Create a VM from template
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Create VM
+    vmware_guest:
+      hostname: 192.168.1.82  # VC IP
+      username: administrator@vsphere.local
+      password: xxxx
+      validate_certs: False
+      datacenter: Datacenter
+      folder: Ubuntu_VMs
+      name: Ubuntu-002
+      state: poweredon
+      template: ubuntu-template
+      esxi_hostname: 192.168.1.50
+      disk:
+      - size_gb: 26
+        type: thin
+        datastore: I9-H50-Local-NVME2-460GB
+      hardware:
+        memory_mb: 2024
+        num_cpus: 2
+      networks:
+      - name: "VM Network"
+        ip: 192.168.1.102
+        netmask: 255.255.255.0
+        gateway: 192.168.1.1
+        dns_servers:
+        - 192.168.1.51
+      wait_for_ip_address: no
+    delegate_to: localhost
+    register: deploy
