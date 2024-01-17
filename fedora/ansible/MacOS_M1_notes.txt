@@ -1,0 +1,39 @@
+# Create and activate 3.9 venv
+python3.9 -m venv myenv
+source myenv/bin/activate
+
+
+# Install dependencies
+/Library/Developer/CommandLineTools/usr/bin/pip3 install requests
+/Library/Developer/CommandLineTools/usr/bin/pip3 install PyVmomi
+
+
+# Run playbook in MacOS target ESXi vCenter and ESXi ip addresses 
+ansible-playbook -vvv create_vm.yml -e 'ansible_python_interpreter=/usr/bin/python3'
+
+
+Result VM is created but custom IP adderess is as template VM ip address because template VM did not had vmware tools installed  
+
+
+# SSH to template VM IP and change IP
+ssh val@192.168.1.31
+
+# Manual steps to chage ip address create file
+sudo vim /etc/netplan/01-netcfg.yaml
+
+network:
+  ethernets:
+    ens33:
+      dhcp4: false
+      addresses: [192.168.1.101/24]
+      routes:
+        - to: default
+          via: 192.168.1.1
+          metric: 100
+      nameservers:
+        addresses: [192.168.1.1]
+      dhcp6: false
+  version: 2
+
+# After file with config created run
+netplan apply
